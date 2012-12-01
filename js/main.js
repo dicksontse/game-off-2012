@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var started = false;
 
-  var snake = function() {
+  var game = function() {
     var canvas = $("#canvas");
     var w = canvas.width();
     var h = canvas.height();
@@ -17,8 +17,11 @@ $(document).ready(function() {
     // Keycodes: [w, up arrow], [a, left arrow], [s, down arrow], [d, right arrow]
     var keys = [ [87, 38], [37, 65], [40, 83], [39, 68] ];
 
-    var itemExists = false;
-    var itemPosition = new Array();
+    var branchExists = false;
+    var branchPosition = new Array();
+
+    var mergeExists = false;
+    var mergePosition = new Array();
 
     var score = 0;
     var scoreIncrement = 5;
@@ -38,13 +41,13 @@ $(document).ready(function() {
         current[0] += unit;
       }
 
-      // Game over if snake has hit a wall
+      // Game over if hero has hit a wall
       if ((current[0] < 0) || (current[0] + unit > w) || (current[1] < 0) || (current[1] + unit > h)) {
         gameOver();
       }
     }
 
-    function drawSnake(current) {
+    function drawHero(current) {
       draw.fillStyle = "rgb(65, 131, 196)";
       draw.fillRect(current[0], current[1], unit, unit);
     }
@@ -74,34 +77,68 @@ $(document).ready(function() {
       }
     }
 
-    function itemHandler() {
-      if (!itemExists) {
-        itemPosition = generateRandomPosition();
-        itemExists = true;
+    function branchHandler() {
+      if (!branchExists) {
+        branchPosition = generateRandomPosition();
+        branchExists = true;
       }
 
       draw.fillStyle = "green";
-      draw.fillRect(itemPosition[0], itemPosition[1], unit, unit);
+      draw.fillRect(branchPosition[0], branchPosition[1], unit, unit);
 
-      var snake = [ [position[0], position[0] + unit], [position[1], position[1] + unit] ];
-      var item = [ [itemPosition[0], itemPosition[0] + unit], [itemPosition[1], itemPosition[1] + unit] ];
+      var hero = [ [position[0], position[0] + unit], [position[1], position[1] + unit] ];
+      var branch = [ [branchPosition[0], branchPosition[0] + unit], [branchPosition[1], branchPosition[1] + unit] ];
 
-      var hitX = hitCheck(snake[0], item[0]);
-      var hitY = hitCheck(snake[1], item[1]);
+      var hitX = hitCheck(hero[0], branch[0]);
+      var hitY = hitCheck(hero[1], branch[1]);
 
       var hit = hitX && hitY;
 
       if (hit) {
-        // Clear item from canvas
-        draw.clearRect(item[0], item[1], unit, unit);
-        itemExists = false;
+        // Clear branch from canvas
+        draw.clearRect(branch[0], branch[1], unit, unit);
+        branchExists = false;
 
-        // Replace with the snake
+        // Replace with the hero
         draw.fillStyle = "rgb(65, 131, 196)";
-        draw.fillRect(item[0], item[1], unit, unit);
+        draw.fillRect(branch[0], branch[1], unit, unit);
 
         if (tickSpeed > 30) {
           tickSpeed -= 5;
+        }
+
+        updateScore();
+      }
+    }
+
+    function mergeHandler() {
+      if (!mergeExists) {
+        mergePosition = generateRandomPosition();
+        mergeExists = true;
+      }
+
+      draw.fillStyle = "red";
+      draw.fillRect(mergePosition[0], mergePosition[1], unit, unit);
+
+      var hero = [ [position[0], position[0] + unit], [position[1], position[1] + unit] ];
+      var merge = [ [mergePosition[0], mergePosition[0] + unit], [mergePosition[1], mergePosition[1] + unit] ];
+
+      var hitX = hitCheck(hero[0], merge[0]);
+      var hitY = hitCheck(hero[1], merge[1]);
+
+      var hit = hitX && hitY;
+
+      if (hit) {
+        // Clear branch from canvas
+        draw.clearRect(merge[0], merge[1], unit, unit);
+        mergeExists = false;
+
+        // Replace with the hero
+        draw.fillStyle = "rgb(65, 131, 196)";
+        draw.fillRect(merge[0], merge[1], unit, unit);
+
+        if (tickSpeed > 30) {
+          tickSpeed += 3;
         }
 
         updateScore();
@@ -166,8 +203,9 @@ $(document).ready(function() {
       });
 
       updatePosition(position);
-      drawSnake(position);
-      itemHandler();
+      drawHero(position);
+      branchHandler();
+      mergeHandler();
 
       if (started) {
         setTimeout(function() { tick() }, tickSpeed);
@@ -187,6 +225,6 @@ $(document).ready(function() {
   $("button#start").click(function(e) {
     e.preventDefault();
     started = true;
-    snake.start();
+    game.start();
   });
 });
