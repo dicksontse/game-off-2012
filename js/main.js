@@ -18,6 +18,10 @@ $(document).ready(function() {
     var itemExists = false;
     var itemPosition = new Array();
 
+    var score = 0;
+    var scoreIncrement = 5;
+    var highScore = 0;
+
     function updatePosition(current) {
       if (direction == 'up') {
         current[1] -= unit;
@@ -97,6 +101,8 @@ $(document).ready(function() {
         if (tickSpeed > 30) {
           tickSpeed -= 5;
         }
+
+        updateScore();
       }
     }
 
@@ -127,12 +133,25 @@ $(document).ready(function() {
       }
     }
 
+    function updateScore() {
+      score += scoreIncrement;
+      $("span#score").html(score);
+
+      if (score > highScore) {
+        highScore = score;
+        $("span#high-score").html(highScore);
+      }
+    }
+
     function gameOver() {
       alert("Game Over");
 
       tickSpeed = 100;
       direction = 'right';
       position = [unit, unit];
+
+      score = 0;
+      $("span#score").html(score);
     }
 
     function tick() {
