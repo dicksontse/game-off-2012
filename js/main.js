@@ -6,7 +6,7 @@ $(document).ready(function() {
     var w = canvas.width();
     var h = canvas.height();
     var draw = canvas[0].getContext('2d');
-    var unit = 40;
+    var unit = 20;
     var position = [unit, unit];
     var tickSpeed = 150;
     var tock = true;
@@ -85,7 +85,7 @@ $(document).ready(function() {
         branchExists = true;
       }
 
-      draw.fillStyle = "green";
+      draw.fillStyle = "rgb(138, 221, 109)";
       draw.fillRect(branchPosition[0], branchPosition[1], unit, unit);
 
       var hero = [ [position[0], position[0] + unit], [position[1], position[1] + unit] ];
@@ -127,7 +127,7 @@ $(document).ready(function() {
         mergeExists = true;
       }
 
-      draw.fillStyle = "red";
+      draw.fillStyle = "rgb(249, 113, 113)";
       draw.fillRect(mergePosition[0], mergePosition[1], unit, unit);
 
       var hero = [ [position[0], position[0] + unit], [position[1], position[1] + unit] ];
