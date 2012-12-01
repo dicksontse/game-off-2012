@@ -6,6 +6,7 @@ $(document).ready(function() {
     var draw = canvas[0].getContext('2d');
     var unit = 40;
     var position = [0, 0];
+    var tickSpeed = 100;
     var tock = true;
 
     // Directions: up, down, left, right
@@ -13,6 +14,9 @@ $(document).ready(function() {
 
     // Keycodes: [w, up arrow], [a, left arrow], [s, down arrow], [d, right arrow]
     var keys = [ [87, 38], [37, 65], [40, 83], [39, 68] ];
+
+    var itemExists = false;
+    var itemPosition = new Array();
 
     function updatePosition(current) {
       if (direction == 'up') {
@@ -74,6 +78,65 @@ $(document).ready(function() {
       }
     }
 
+    function itemHandler() {
+      if (!itemExists) {
+        itemPosition = generateRandomPosition();
+        itemExists = true;
+      }
+
+      draw.fillStyle = "green";
+      draw.fillRect(itemPosition[0], itemPosition[1], unit, unit);
+
+      var snake = [ [position[0], position[0] + unit], [position[1], position[1] + unit] ];
+      var item = [ [itemPosition[0], itemPosition[0] + unit], [itemPosition[1], itemPosition[1] + unit] ];
+
+      var hitX = hitCheck(snake[0], item[0]);
+      var hitY = hitCheck(snake[1], item[1]);
+
+      var hit = hitX && hitY;
+
+      if (hit) {
+        // Clear item from canvas
+        draw.clearRect(item[0], item[1], unit, unit);
+        itemExists = false;
+
+        // Replace with the snake
+        draw.fillStyle = "rgb(65, 131, 196)";
+        draw.fillRect(item[0], item[1], unit, unit);
+
+        if (tickSpeed > 30) {
+          tickSpeed -= 5;
+        }
+      }
+    }
+
+    function generateRandomPosition() {
+      var x = Math.round(Math.floor(Math.random() * (w - (unit - 1))) / unit) * unit;
+      var y = Math.round(Math.floor(Math.random() * (w - (unit - 1))) / unit) * unit;
+
+      return [x, y];
+    }
+
+    function hitCheck(myPosition, itemPosition) {
+      var a = itemPosition;
+      var b = myPosition;
+
+      if (myPosition[0] < itemPosition[0]) {
+        a = myPosition;
+      }
+      
+      if (myPosition[1] < itemPosition[0]) {
+        b = itemPosition;
+      }
+
+      if (a[1] > b[0] || a[0] === b[0]) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+
     function tick() {
       draw.clearRect(0, 0, w, h);
       tock = true;
@@ -84,8 +147,9 @@ $(document).ready(function() {
 
       updatePosition(position);
       drawSnake(position);
+      itemHandler();
 
-      setTimeout(function() { tick() }, 100);
+      setTimeout(function() { tick() }, tickSpeed);
     }
 
     return {
