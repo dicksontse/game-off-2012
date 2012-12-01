@@ -23,6 +23,8 @@ $(document).ready(function() {
     var mergeExists = false;
     var mergePosition = new Array();
 
+    var nextItem = "branch";
+
     var score = 0;
     var scoreIncrement = 5;
     var highScore = 0;
@@ -95,19 +97,27 @@ $(document).ready(function() {
       var hit = hitX && hitY;
 
       if (hit) {
-        // Clear branch from canvas
-        draw.clearRect(branch[0], branch[1], unit, unit);
-        branchExists = false;
-
-        // Replace with the hero
-        draw.fillStyle = "rgb(65, 131, 196)";
-        draw.fillRect(branch[0], branch[1], unit, unit);
-
-        if (tickSpeed > 30) {
-          tickSpeed -= 5;
+        if (nextItem == "merge") {
+          gameOver();
         }
+        else {
+          nextItem = "merge";
+          $("div#status").text("Next: MERGE!");
 
-        updateScore();
+          // Clear branch from canvas
+          draw.clearRect(branch[0], branch[1], unit, unit);
+          branchExists = false;
+
+          // Replace with the hero
+          draw.fillStyle = "rgb(65, 131, 196)";
+          draw.fillRect(branch[0], branch[1], unit, unit);
+
+          if (tickSpeed > 30) {
+            tickSpeed -= 5;
+          }
+
+          updateScore();
+        }
       }
     }
 
@@ -129,19 +139,27 @@ $(document).ready(function() {
       var hit = hitX && hitY;
 
       if (hit) {
-        // Clear branch from canvas
-        draw.clearRect(merge[0], merge[1], unit, unit);
-        mergeExists = false;
-
-        // Replace with the hero
-        draw.fillStyle = "rgb(65, 131, 196)";
-        draw.fillRect(merge[0], merge[1], unit, unit);
-
-        if (tickSpeed > 30) {
-          tickSpeed += 3;
+        if (nextItem == "branch") {
+          gameOver();
         }
+        else {
+          nextItem = "branch";
+          $("div#status").text("Next: BRANCH!");
 
-        updateScore();
+          // Clear branch from canvas
+          draw.clearRect(merge[0], merge[1], unit, unit);
+          mergeExists = false;
+
+          // Replace with the hero
+          draw.fillStyle = "rgb(65, 131, 196)";
+          draw.fillRect(merge[0], merge[1], unit, unit);
+
+          if (tickSpeed > 30) {
+            tickSpeed += 3;
+          }
+
+          updateScore();
+        }
       }
     }
 
@@ -192,6 +210,9 @@ $(document).ready(function() {
 
       score = 0;
       $("span#score").html(score);
+
+      nextItem = "branch";
+      $("div#status").text('');
     }
 
     function tick() {
@@ -225,6 +246,7 @@ $(document).ready(function() {
   $("button#start").click(function(e) {
     e.preventDefault();
     started = true;
+    $("div#status").text("Next: BRANCH!");
     game.start();
   });
 });
