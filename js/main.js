@@ -8,7 +8,7 @@ $(document).ready(function() {
     var draw = canvas[0].getContext('2d');
     var unit = 40;
     var position = [unit, unit];
-    var tickSpeed = 100;
+    var tickSpeed = 150;
     var tock = true;
 
     // Directions: up, down, left, right
@@ -176,9 +176,6 @@ $(document).ready(function() {
 
       if (myPosition[0] < itemPosition[0]) {
         a = myPosition;
-      }
-      
-      if (myPosition[1] < itemPosition[0]) {
         b = itemPosition;
       }
 
@@ -204,7 +201,7 @@ $(document).ready(function() {
       alert("Game Over");
 
       started = false;
-      tickSpeed = 100;
+      tickSpeed = 150;
       direction = 'right';
       position = [unit, unit];
 
