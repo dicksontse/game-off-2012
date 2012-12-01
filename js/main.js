@@ -8,7 +8,7 @@ $(document).ready(function() {
     var draw = canvas[0].getContext('2d');
     var unit = 20;
     var position = [unit, unit];
-    var tickSpeed = 150;
+    var tickSpeed = 120;
     var tock = true;
 
     // Directions: up, down, left, right
@@ -102,7 +102,8 @@ $(document).ready(function() {
         }
         else {
           nextItem = "merge";
-          $("div#status").text("Next: MERGE!");
+          $("div#branch").addClass("hidden");
+          $("div#merge").removeClass("hidden");
 
           // Clear branch from canvas
           draw.clearRect(branch[0], branch[1], unit, unit);
@@ -144,7 +145,8 @@ $(document).ready(function() {
         }
         else {
           nextItem = "branch";
-          $("div#status").text("Next: BRANCH!");
+          $("div#merge").addClass("hidden");
+          $("div#branch").removeClass("hidden");
 
           // Clear branch from canvas
           draw.clearRect(merge[0], merge[1], unit, unit);
@@ -204,6 +206,7 @@ $(document).ready(function() {
 
     function gameOver() {
       alert("Game Over");
+      $("button#start").removeAttr('disabled');
 
       started = false;
       tickSpeed = 150;
@@ -214,7 +217,8 @@ $(document).ready(function() {
       $("span#score").html(score);
 
       nextItem = "branch";
-      $("div#status").text('');
+      $("div#branch").addClass("hidden");
+      $("div#merge").addClass("hidden");
     }
 
     function tick() {
@@ -245,10 +249,13 @@ $(document).ready(function() {
     }
   } ();
 
+  $("button#start").removeAttr('disabled');
+
   $("button#start").click(function(e) {
     e.preventDefault();
+    $(this).attr('disabled', 'disabled');
     started = true;
-    $("div#status").text("Next: BRANCH!");
+    $("div#branch").removeClass("hidden");
     game.start();
   });
 });

@@ -1,3 +1,48 @@
+body {
+  background: url("../img/bg.png");
+  color: #bcbcbc;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+#main {
+  margin-top: 20px;
+  text-align: center;
+}
+
 #canvas {
-  border: 1px solid #e5e5e5;
+  background-color: #eeeeee;
+  border: 5px solid #bcbcbc;
+}
+
+#score-display {
+  font-size: 18px;
+  line-height: 24px;
+  padding-left: 5px;
+  text-align: left;
+}
+
+#start-container {
+  margin-top: 5px;
+  padding-left: 70px;
+  text-align: left;
+}
+
+#status {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#branch {
+  color: #8add6d;
+}
+
+#merge {
+  color: #f97171;
+}
+
+.hidden {
+  display: none;
 }

@@ -3,17 +3,29 @@
   <head>
     <meta charset='utf-8'>
     <title>Branch and Merge</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
   </head>
   <body>
-    <canvas id="canvas" width="600" height="600"></canvas>
-    <section id="score-display">
-      <div>Score: <span id="score">0</span></div>
-      <div>High Score: <span id="high-score">0</span></div>
-    </section>
-    <button id="start">Start!</button>
-    <div id="status"></div>
+    <div id="main" class="container">
+      <h1>Branch and Merge</h1>
+      <canvas id="canvas" width="600" height="600"></canvas>
+      <div class="row">
+        <section id="score-display" class="offset2 span6">
+          <div>Score: <span id="score">0</span></div>
+          <div>High Score: <span id="high-score">0</span></div>
+        </section>
+        <div id="start-container" class="span3">
+          <button id="start" class="btn btn-info">Start!</button>
+        </div>
+      </div>
+      <div id="status">
+        <div id="branch" class="hidden">BRANCH NEXT!</div>
+        <div id="merge" class="hidden">MERGE NEXT!</div>
+      </div>
+    </div>
   </body>
 </html>
