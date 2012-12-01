@@ -26,7 +26,7 @@ $(document).ready(function() {
     var nextItem = "branch";
 
     var score = 0;
-    var scoreIncrement = 5;
+    var scoreIncrement = 100;
     var highScore = 0;
 
     function updatePosition(current) {
@@ -116,7 +116,7 @@ $(document).ready(function() {
             tickSpeed -= 5;
           }
 
-          updateScore();
+          updateScore("branch");
         }
       }
     }
@@ -158,7 +158,7 @@ $(document).ready(function() {
             tickSpeed += 3;
           }
 
-          updateScore();
+          updateScore("merge");
         }
       }
     }
@@ -187,8 +187,13 @@ $(document).ready(function() {
       }
     }
 
-    function updateScore() {
-      score += scoreIncrement;
+    function updateScore(type) {
+      if (type == "branch") {
+        score += scoreIncrement;
+      }
+      else {
+        score += (scoreIncrement * 5);
+      }
       $("span#score").html(score);
 
       if (score > highScore) {
