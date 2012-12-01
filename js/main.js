@@ -5,7 +5,7 @@ $(document).ready(function() {
     var h = canvas.height();
     var draw = canvas[0].getContext('2d');
     var unit = 40;
-    var position = [0, 0];
+    var position = [unit, unit];
     var tickSpeed = 100;
     var tock = true;
 
@@ -32,19 +32,9 @@ $(document).ready(function() {
         current[0] += unit;
       }
 
-      // Reset position if snake has hit an edge
-      if (current[0] < 0) {
-        current[0] = w - unit;
-      }
-      else if (current[0] + unit > w) {
-        current[0] = 0;
-      }
-
-      if (current[1] < 0) {
-        current[1] = h - unit;
-      }
-      else if (current[1] + unit > h) {
-        current[1] = 0;
+      // Game over if snake has hit a wall
+      if ((current[0] < 0) || (current[0] + unit > w) || (current[1] < 0) || (current[1] + unit > h)) {
+        gameOver();
       }
     }
 
@@ -135,6 +125,14 @@ $(document).ready(function() {
       else {
         return false;
       }
+    }
+
+    function gameOver() {
+      alert("Game Over");
+
+      tickSpeed = 100;
+      direction = 'right';
+      position = [unit, unit];
     }
 
     function tick() {
