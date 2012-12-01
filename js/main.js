@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  var started = false;
+
   var snake = function() {
     var canvas = $("#canvas");
     var w = canvas.width();
@@ -146,6 +148,7 @@ $(document).ready(function() {
     function gameOver() {
       alert("Game Over");
 
+      started = false;
       tickSpeed = 100;
       direction = 'right';
       position = [unit, unit];
@@ -166,15 +169,24 @@ $(document).ready(function() {
       drawSnake(position);
       itemHandler();
 
-      setTimeout(function() { tick() }, tickSpeed);
+      if (started) {
+        setTimeout(function() { tick() }, tickSpeed);
+      }
+      else {
+        draw.clearRect(0, 0, w, h);
+      }
     }
 
     return {
-      init: function() {
+      start: function() {
         tick();
       }
     }
   } ();
 
-  snake.init();
+  $("button#start").click(function(e) {
+    e.preventDefault();
+    started = true;
+    snake.start();
+  });
 });
