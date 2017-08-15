@@ -2,9 +2,9 @@
 
 A game built with HTML5 / jQuery where you alternate between **branching** and **merging**.
 
-You can play it [here](http://projects.dicksontse.com/game-off/).
+You can play it [here](http://dicksontse.github.io/game-off-2012/).
 
-<img src="http://projects.dicksontse.com/game-off/branch_merge.jpg">
+<img src="http://dicksontse.github.io/game-off-2012/branch_merge.jpg">
 
 ## Instructions
 
